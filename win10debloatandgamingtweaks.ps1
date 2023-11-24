@@ -3291,6 +3291,7 @@ Function NetworkOptimizations {
        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\MSMQ\Parameters" -Name "TCPNoDelay" -Type DWord -Value 1
        Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Lsa" -Name "LmCompatibilityLevel" -Type DWord -Value 1
        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDoh" -Type DWord -Value 2
+       Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "MaxNumRssCpus" -Type DWord -Value 4
        Set-NetTCPSetting -SettingName internet -EcnCapability disabled | Out-Null
        Set-NetOffloadGlobalSetting -Chimney disabled | Out-Null
        Set-NetTCPSetting -SettingName internet -Timestamps disabled | Out-Null
@@ -3301,6 +3302,7 @@ Function NetworkOptimizations {
        Set-NetTCPSetting -SettingName Internet -AutoTuningLevelLocal normal | Out-Null
        Set-NetTCPSetting -SettingName internet -ScalingHeuristics disabled | Out-Null
        netsh int tcp set supplemental internet congestionprovider=ctcp | Out-Null
+       netsh int tcp set global rss=enabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSegmentCoalescing enabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSideScaling enabled | Out-Null
        Disable-NetAdapterLso -Name * | Out-Null
