@@ -3331,6 +3331,7 @@ Function NetworkOptimizations {
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Interrupt Moderation Rate" -DisplayValue "Off" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Log Link State Event" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Packet Priority & VLAN" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Packet Priority & VLAN" -DisplayValue "Packet Priority & VLAN Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Priority & VLAN" -DisplayValue "Priority & VLAN Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "IPv4 Checksum Offload" -DisplayValue "Rx & Tx Enabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Jumbo Frame" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
