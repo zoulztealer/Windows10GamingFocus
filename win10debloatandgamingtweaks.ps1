@@ -3318,12 +3318,12 @@ Function NetworkOptimizations {
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Advanced EEE" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "ARP Offload" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "NS Offload" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Large Send Offload v2 (IPv4)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Large Send Offload v2 (IPv6)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv4)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv6)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv4)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv6)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Large Send Offload v2 (IPv4)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Large Send Offload v2 (IPv6)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv4)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv6)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv4)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv6)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Idle Power Saving" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Flow Control" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Interrupt Moderation" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
@@ -3333,9 +3333,9 @@ Function NetworkOptimizations {
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Packet Priority & VLAN" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Packet Priority & VLAN" -DisplayValue "Packet Priority & VLAN Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Priority & VLAN" -DisplayValue "Priority & VLAN Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "IPv4 Checksum Offload" -DisplayValue "Rx & Tx Enabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "IPv4 Checksum Offload" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Jumbo Frame" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Maximum Number of RSS Queues" -DisplayValue "4 Queues" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Maximum Number of RSS Queues" -DisplayValue "2 Queues" -ErrorAction SilentlyContinue
        $ErrorActionPreference = $errpref #restore previous preference
        if ((Get-CimInstance -ClassName Win32_ComputerSystem).PCSystemType -ne 2)
 {
