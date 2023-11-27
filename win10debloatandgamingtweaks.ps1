@@ -3291,6 +3291,7 @@ Function NetworkOptimizations {
        Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Control\Lsa" -Name "LmCompatibilityLevel" -Type DWord -Value 1
        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDoh" -Type DWord -Value 2
        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "MaxNumRssCpus" -Type DWord -Value 4
+       Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "DisableTaskOffload" -Type DWord -Value 0
        Set-NetTCPSetting -SettingName internet -EcnCapability disabled | Out-Null
        Set-NetOffloadGlobalSetting -Chimney disabled | Out-Null
        Set-NetTCPSetting -SettingName internet -Timestamps disabled | Out-Null
