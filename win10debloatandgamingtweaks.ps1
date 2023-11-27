@@ -3336,6 +3336,7 @@ Function NetworkOptimizations {
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "IPv4 Checksum Offload" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Jumbo Frame" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Maximum Number of RSS Queues" -DisplayValue "2 Queues" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "Receive Side Scaling" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        $ErrorActionPreference = $errpref #restore previous preference
        if ((Get-CimInstance -ClassName Win32_ComputerSystem).PCSystemType -ne 2)
 {
