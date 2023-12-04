@@ -2730,6 +2730,7 @@ function Windows11Extra {
 		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarMn" -Type DWord -Value 0 #disable chat icon from taskbar
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1 #Disable start menu RecentlyAddedApps
     		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" -Name "ThreadDpcEnable" -Type DWord -Value 0 | Out-Null -ErrorAction SilentlyContinue
+      		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" -Name "GlobalTimerResolutionRequests" -Type DWord -Value 1 | Out-Null -ErrorAction SilentlyContinue
 	}
 }
 # Enable Quality Of Life Tweaks
@@ -2918,9 +2919,9 @@ Function DisableHPET {
         bcdedit /set usephysicaldestination No | Out-Null
         bcdedit /set usefirmwarepcisettings No | Out-Null
 	bcdedit /deletevalue useplatformclock | Out-Null
-        bcdedit /set disabledynamictick yes | Out-Null
-        bcdedit /set useplatformtick Yes | Out-Null
-        bcdedit /set tscsyncpolicy Enhanced | Out-Null
+	bcdedit /deletevalue useplatformtick | Out-Null
+	bcdedit /deletevalue disabledynamictick | Out-Null
+	bcdedit /deletevalue tscsyncpolicy | Out-Null
 	bcdedit /timeout 10 | Out-Null
 	bcdedit /set nx optout | Out-Null
 	bcdedit /set bootux disabled | Out-Null
@@ -2928,7 +2929,7 @@ Function DisableHPET {
 	bcdedit /set {globalsettings} custom:16000067 true | Out-Null
 	bcdedit /set {globalsettings} custom:16000069 true | Out-Null
 	bcdedit /set {globalsettings} custom:16000068 true | Out-Null
-	wmic path Win32_PnPEntity where "name='High precision event timer'" call disable | Out-Null
+	wmic path Win32_PnPEntity where "name='High precision event timer'" call enable | Out-Null
 	$ErrorActionPreference = $errpref #restore previous preference
 }
 
