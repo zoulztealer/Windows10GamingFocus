@@ -2969,9 +2969,25 @@ Function EnableHAGS {
 #Add Utimate Power Plan And Activate It
 Function EnableUlimatePower {
 	Write-Output "Enabling and Activating Bitsum Highest Performance Power Plan..."
+	$powerSchemes = powercfg /l | ForEach-Object {
+    if ($_ -match '^Power Scheme GUID:\s*([-0-9a-f]+)\s*\(([^)]+)\)\s*(\*)?') {
+        [PsCustomObject]@{
+            GUID       = $matches[1]
+            SchemeName = $matches[2]
+            Active     = $matches[3] -eq '*'
+        }
+    }
+}
+	$customScheme = ($powerSchemes | Where-Object { $_.SchemeName -eq 'Bitsum Highest Performance' }).GUID
+ 	if ($customScheme -eq 'e6a66b66-d6df-666d-aa66-66f66666eb66') {
+  	Write-Output "Power Plan already exist! setting it as active..."
+   	powercfg -setactive e6a66b66-d6df-666d-aa66-66f66666eb66 | Out-Null
+    } else {
+	Write-Output "Enabling and Activating Bitsum Highest Performance Power Plan..."
 	Invoke-WebRequest -Uri "https://git.io/JsWhn" -OutFile "$Env:windir\system32\Bitsum-Highest-Performance.pow" -ErrorAction SilentlyContinue
 	powercfg -import "$Env:windir\system32\Bitsum-Highest-Performance.pow" e6a66b66-d6df-666d-aa66-66f66666eb66 | Out-Null
 	powercfg -setactive e6a66b66-d6df-666d-aa66-66f66666eb66 | Out-Null
+ }
 }
 
 #Disable Core Parking on current PowerPlan Ultimate Performance
