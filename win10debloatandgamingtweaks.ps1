@@ -3430,15 +3430,15 @@ Write-Output "Setting network adapter RSS..."
 		$KeyPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber"
 		If(Test-Path -Path $KeyPath)
 			{
-					Set-ItemProperty -Path $KeyPath -Name "*NumRssQueues" -Type DWord -Value 4 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type DWord -Value 1 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RSSProfile" -Type DWord -Value 4 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcNumber" -Type DWord -Value 2 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*MaxRssProcessors" -Type DWord -Value 4 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*NumaNodeId" -Type DWord -Value 0 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcGroup" -Type DWord -Value 0 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcNumber" -Type DWord -Value 4 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcGroup" -Type DWord -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*NumRssQueues" -Type String -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type DWord -String 1 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RSSProfile" -Type String -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcNumber" -Type String -Value 2 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*MaxRssProcessors" -Type String -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*NumaNodeId" -Type String -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcGroup" -Type String -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcNumber" -Type String -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcGroup" -Type String -Value 0 | Out-Null
 		}
 				Else
 		{
