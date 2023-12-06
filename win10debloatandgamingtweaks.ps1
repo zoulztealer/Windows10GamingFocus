@@ -2771,6 +2771,9 @@ Function FullscreenOptimizationFIX {
 	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Type DWord -Value 0
  	Set-ItemProperty -Path "HKCU:\Software\Microsoft\DirectX\GraphicsSettings" -Name "SwapEffectUpgradeCache" -Type DWord -Value 1
   	Set-ItemProperty -Path "HKCU:\Software\Microsoft\DirectX\UserGpuPreferences" -Name "DirectXUserGlobalSettings" -Type String -Value 'SwapEffectUpgradeEnable=1;'
+   	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform" -Name "InactivityShutdownDelay" -Type DWord -Value 4294967295
+    	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Dwm" -Name "OverlayTestMode" -Type DWord -Value 5
+   	Disable-MMAgent -MemoryCompression | Out-Null
 }
 
 #Game Optimizations Priority Tweaks -Type String -Value "Deny"
@@ -2783,6 +2786,15 @@ Function GameOptimizationFIX {
 	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" -Name "IRQ8Priority" -Type DWord -Value 1
   	reg ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 4 /f | Out-Null
    	reg ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" /v IoPriority /t REG_DWORD /d 3 /f | Out-Null
+    	fsutil behavior set disable8dot3 1
+     	fsutil behavior set disablelastaccess 1
+    	$PlatformCheck = (Get-Computerinfo).CsPCSystemType
+     if ($PlatformCheck -eq "Desktop") {
+     Write-Output "Platform is $PlatformCheck Disabling power saving options on all connected devices..."
+     Get-WmiObject MSPower_DeviceEnable -Namespace root\wmi | ForEach-Object { $_.enable = $false; $_.psbase.put(); }
+     } else {
+     Write-Output "Platform is $PlatformCheck No power saving edits has been made."
+     }
 }
 
 #Forcing Raw Mouse Input
@@ -2964,6 +2976,10 @@ Function DisableCoreParking {
         Write-Output "Disabling Core Parking on current PowerPlan Ultimate Performance..."
 	powercfg -attributes SUB_PROCESSOR CPMINCORES -ATTRIB_HIDE | Out-Null
 	Powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100 | Out-Null
+ 	powercfg /setacvalueindex scheme_current 2a737441-1930-4402-8d77-b2bebba308a3 d4e98f31-5ffe-4ce1-be31-1b38b384c009 0 | Out-Null
+  	powercfg /setacvalueindex scheme_current 2a737441-1930-4402-8d77-b2bebba308a3 48e6b7a6-50f5-4782-a5d4-53bb8f07e226 0 | Out-Null
+   	powercfg /setacvalueindex scheme_current 7516b95f-f776-4464-8c53-06167f40cc99 3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e 0 | Out-Null
+    	powercfg /setacvalueindex scheme_current 54533251-82be-4824-96c1-47b60b740d00 4d2b0152-7d5c-498b-88e2-34345392a2c5 5000 | Out-Null
 	Powercfg -setactive scheme_current | Out-Null
 }
 
@@ -3399,7 +3415,7 @@ Write-Output "Setting network adapter RSS..."
 					Set-ItemProperty -Path $KeyPath -Name "*NumRssQueues" -Type DWord -Value 4 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type DWord -Value 1 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RSSProfile" -Type DWord -Value 4 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcNumber" -Type DWord -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcNumber" -Type DWord -Value 2 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*MaxRssProcessors" -Type DWord -Value 4 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*NumaNodeId" -Type DWord -Value 0 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcGroup" -Type DWord -Value 0 | Out-Null
