@@ -3428,8 +3428,17 @@ Write-Output "Setting network adapter RSS..."
 			$AdapterDeviceNumber = "00"+$DeviceID
 		}
 		$KeyPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber"
+		$KeyPath2 = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber\Ndi\params\*RSS\Enum"
+		$KeyPath3 = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber\Ndi\params\*RSS"
+		$KeyPath4 = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber\Ndi\params\*NumRssQueues\Enum"
+		$KeyPath5 = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber\Ndi\params\*NumRssQueues"
+		$KeyPath6 = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber\Ndi\params\*ReceiveBuffers"
+		$KeyPath7 = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber\Ndi\params\*TransmitBuffers"
+		
 		If(Test-Path -Path $KeyPath)
 			{
+					new-Item -Path $KeyPath2 -Force | Out-Null
+					new-Item -Path $KeyPath4 -Force | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*NumRssQueues" -Type String -Value 4 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type DWord -String 1 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RSSProfile" -Type String -Value 4 | Out-Null
@@ -3439,6 +3448,22 @@ Write-Output "Setting network adapter RSS..."
 					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcGroup" -Type String -Value 0 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcNumber" -Type String -Value 4 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcGroup" -Type String -Value 0 | Out-Null
+					New-ItemProperty -Path $KeyPath3 -Name "default" -Type String -Value 1 | Out-Null
+					New-ItemProperty -Path $KeyPath3 -Name "ParamDesc" -Type String -Value "Receive Side Scaling" | Out-Null
+					New-ItemProperty -Path $KeyPath3 -Name "type" -Type String -Value "enum" | Out-Null
+					New-ItemProperty -Path $KeyPath2 -Name "0" -Type String -Value "Disabled" | Out-Null
+					New-ItemProperty -Path $KeyPath2 -Name "1" -Type String -Value "Enabled" | Out-Null
+					New-ItemProperty -Path $KeyPath4 -Name "1" -Type String -Value "1 Queue" | Out-Null
+					New-ItemProperty -Path $KeyPath4 -Name "2" -Type String -Value "2 Queue" | Out-Null
+					New-ItemProperty -Path $KeyPath4 -Name "3" -Type String -Value "3 Queue" | Out-Null
+					New-ItemProperty -Path $KeyPath4 -Name "4" -Type String -Value "4 Queue" | Out-Null
+					New-ItemProperty -Path $KeyPath5 -Name "default" -Type String -Value "2" | Out-Null
+					New-ItemProperty -Path $KeyPath5 -Name "ParamDesc" -Type String -Value "Maximum Number of RSS Queues" | Out-Null
+					New-ItemProperty -Path $KeyPath5 -Name "type" -Type String -Value "enum" | Out-Null
+					Set-ItemProperty -Path $KeyPath6 -Name "Max" -Type String -Value 6144 | Out-Null
+					Set-ItemProperty -Path $KeyPath6 -Name "Default" -Type String -Value 1024 | Out-Null
+					Set-ItemProperty -Path $KeyPath7 -Name "Max" -Type String -Value 6144 | Out-Null
+					Set-ItemProperty -Path $KeyPath7 -Name "Default" -Type String -Value 2048 | Out-Null	
 		}
 				Else
 		{
