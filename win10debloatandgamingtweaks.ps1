@@ -223,6 +223,7 @@ $tweaks = @(
 	"NvidiaTweaks",
 	"AMDGPUTweaks",
 	"NetworkOptimizations",
+ 	"NetworkAdapterRSS",
 	"RemoveEdit3D",
 	"FixURLext",  # fix issue with games shortcut that created by games lunchers turned white!
 	"UltimateCleaner",
@@ -3307,6 +3308,7 @@ Function NetworkOptimizations {
        Set-NetTCPSetting -SettingName internet -ScalingHeuristics disabled | Out-Null
        netsh int tcp set supplemental internet congestionprovider=ctcp | Out-Null
        netsh int tcp set global rss=enabled | Out-Null
+       netsh int ip set global taskoffload=enabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSegmentCoalescing disabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSideScaling enabled | Out-Null
        Disable-NetAdapterLso -Name * | Out-Null
@@ -3370,6 +3372,46 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\$NetworkID" -Name "TCPNoDelay" -Type DWord -Value 1
 }
 $ErrorActionPreference = $errpref #restore previous preference
+}
+
+#setting network adabter optimal rss
+Function NetworkAdapterRSS {
+$errpref = $ErrorActionPreference #save actual preference
+$ErrorActionPreference = "silentlycontinue"
+Write-Output "Setting network adapter RSS..."
+	$PhysicalAdapters = Get-WmiObject -Class Win32_NetworkAdapter|Where-Object{$_.PNPDeviceID -notlike "ROOT\*" -and $_.Manufacturer -ne "Microsoft" -and $_.ConfigManagerErrorCode -eq 0 -and $_.ConfigManagerErrorCode -ne 22}
+	
+	Foreach($PhysicalAdapter in $PhysicalAdapters)
+	{
+		$PhysicalAdapterName = $PhysicalAdapter.Name
+		$DeviceID = $PhysicalAdapter.DeviceID
+		If([Int32]$DeviceID -lt 10)
+		{
+			$AdapterDeviceNumber = "000"+$DeviceID
+		}
+		Else
+		{
+			$AdapterDeviceNumber = "00"+$DeviceID
+		}
+		$KeyPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4D36E972-E325-11CE-BFC1-08002bE10318}\$AdapterDeviceNumber"
+		If(Test-Path -Path $KeyPath)
+			{
+					Set-ItemProperty -Path $KeyPath -Name "*NumRssQueues" -Type DWord -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type DWord -Value 1 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RSSProfile" -Type DWord -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcNumber" -Type DWord -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*MaxRssProcessors" -Type DWord -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*NumaNodeId" -Type DWord -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcGroup" -Type DWord -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcNumber" -Type DWord -Value 4 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcGroup" -Type DWord -Value 0 | Out-Null
+		}
+				Else
+		{
+			Write-Host "The path ($KeyPath) not found."
+		}
+	}
+ $ErrorActionPreference = $errpref #restore previous preference
 }
 
 #Remove Edit with 3D Paint
