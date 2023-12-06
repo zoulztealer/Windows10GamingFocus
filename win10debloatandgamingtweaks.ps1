@@ -2761,6 +2761,8 @@ Function QOL {
 
 #Disable Fullscreen Optimizations
 Function FullscreenOptimizationFIX {
+	$errpref = $ErrorActionPreference #save actual preference
+        $ErrorActionPreference = "silentlycontinue"
 	Write-Output "Disabling Full ScreenOptimization..."
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_FSEBehaviorMode" -Type DWord -Value 2
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_HonorUserFSEBehaviorMode" -Type DWord -Value 1
@@ -2774,6 +2776,7 @@ Function FullscreenOptimizationFIX {
    	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform" -Name "InactivityShutdownDelay" -Type DWord -Value 4294967295
     	Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Dwm" -Name "OverlayTestMode" -Type DWord -Value 5
    	Disable-MMAgent -MemoryCompression | Out-Null
+    	$ErrorActionPreference = $errpref #restore previous preference
 }
 
 #Game Optimizations Priority Tweaks -Type String -Value "Deny"
@@ -2791,7 +2794,7 @@ Function GameOptimizationFIX {
     	$PlatformCheck = (Get-Computerinfo).CsPCSystemType
      if ($PlatformCheck -eq "Desktop") {
      Write-Output "Platform is $PlatformCheck Disabling power saving options on all connected devices..."
-     Get-WmiObject MSPower_DeviceEnable -Namespace root\wmi | ForEach-Object { $_.enable = $false; $_.psbase.put(); }
+     Get-WmiObject MSPower_DeviceEnable -Namespace root\wmi | ForEach-Object { $_.enable = $false; $_.psbase.put(); } | Out-Null
      } else {
      Write-Output "Platform is $PlatformCheck No power saving edits has been made."
      }
