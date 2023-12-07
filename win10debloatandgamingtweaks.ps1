@@ -1025,13 +1025,13 @@ Function askDefender {
 	
 }
 
-#Ask User If He Want to Enable Or Disable Microsoft Software Protection  Service
+#Ask User If He Want to Enable Or Disable Microsoft Software Protection Platform Service
 Function askMSPPS {
 	
 	do
  {
     cls
-    Write-Host "================ Do you have High CPU Usage from Microsoft Software Protection  Service? ================"
+    Write-Host "================ Do you have High CPU Usage from Microsoft Software Protection Platform Service? ================"
 	Write-ColorOutput "WARNING: Windows Default is ENABLED, if you Disabled it, Windows 10/Office will show not activated state but you can use it as normal" Red
     Write-Host "Y: Press 'Y' to Disable this."
     Write-Host "N: Press 'N' to Enable this."
@@ -1040,14 +1040,14 @@ Function askMSPPS {
     switch ($selection)
     {
     'y' { 
-	    Write-Output "Disabling Microsoft Software Protection  Service and related Processes..."
-		Disable-ScheduledTask -TaskName "\Microsoft\Windows\SoftwareProtection\SvcRestartTask" | Out-Null
+	    Write-Output "Disabling Microsoft Software Protection Platform Service and related Processes..."
+		Disable-ScheduledTask -TaskName "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" | Out-Null
 		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\sppsvc" -Name "Start" -Type DWord -Value 4 -ErrorAction SilentlyContinue
 		cls
 	}
     'n' {
-        Write-Output "Enabling Microsoft Software Protection  Service and related Processes..."
-	    Enable-ScheduledTask -TaskName "\Microsoft\Windows\SoftwareProtection\SvcRestartTask" | Out-Null
+        Write-Output "Enabling Microsoft Software Protection Platform Service and related Processes..."
+	    Enable-ScheduledTask -TaskName "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" | Out-Null
 		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\sppsvc" -Name "Start" -Type DWord -Value 2 -ErrorAction SilentlyContinue
 		cls
 		}
