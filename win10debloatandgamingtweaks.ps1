@@ -3440,7 +3440,7 @@ Write-Output "Setting network adapter RSS..."
 					new-Item -Path $KeyPath2 -Force | Out-Null
 					new-Item -Path $KeyPath4 -Force | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*NumRssQueues" -Type String -Value 4 | Out-Null
-					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type DWord -String 1 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*RSS" -Type String -Value 1 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RSSProfile" -Type String -Value 4 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcNumber" -Type String -Value 2 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*MaxRssProcessors" -Type String -Value 4 | Out-Null
@@ -3448,6 +3448,8 @@ Write-Output "Setting network adapter RSS..."
 					Set-ItemProperty -Path $KeyPath -Name "*RssBaseProcGroup" -Type String -Value 0 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcNumber" -Type String -Value 4 | Out-Null
 					Set-ItemProperty -Path $KeyPath -Name "*RssMaxProcGroup" -Type String -Value 0 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*ReceiveBuffers" -Type String -Value 1024 | Out-Null
+					Set-ItemProperty -Path $KeyPath -Name "*TransmitBuffers" -Type String -Value 2048 | Out-Null
 					New-ItemProperty -Path $KeyPath3 -Name "default" -Type String -Value 1 | Out-Null
 					New-ItemProperty -Path $KeyPath3 -Name "ParamDesc" -Type String -Value "Receive Side Scaling" | Out-Null
 					New-ItemProperty -Path $KeyPath3 -Name "type" -Type String -Value "enum" | Out-Null
@@ -3463,7 +3465,7 @@ Write-Output "Setting network adapter RSS..."
 					Set-ItemProperty -Path $KeyPath6 -Name "Max" -Type String -Value 6144 | Out-Null
 					Set-ItemProperty -Path $KeyPath6 -Name "Default" -Type String -Value 1024 | Out-Null
 					Set-ItemProperty -Path $KeyPath7 -Name "Max" -Type String -Value 6144 | Out-Null
-					Set-ItemProperty -Path $KeyPath7 -Name "Default" -Type String -Value 2048 | Out-Null	
+					Set-ItemProperty -Path $KeyPath7 -Name "Default" -Type String -Value 2048 | Out-Null
 		}
 				Else
 		{
