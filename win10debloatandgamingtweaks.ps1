@@ -3691,7 +3691,6 @@ cls
     "*WindowsAlarms*"
     "*WindowsFeedbackHub*"
     "*WindowsMaps*"
-    "*WindowsPhone*"
     "*WindowsSoundRecorder*"
     "*MicrosoftOfficeHub*"
     "*MixedReality.Portal*"
@@ -3701,7 +3700,6 @@ cls
     "Microsoft.549981C3F5F10"
     "*Advertising.Xaml*"
     "*SolitaireCollection*"
-    "*YourPhone*"
 		
         #Sponsored Windows 10 AppX Apps
         #Add sponsored/featured apps to remove in the "*AppName*" format
