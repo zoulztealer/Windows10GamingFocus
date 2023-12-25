@@ -7,7 +7,7 @@
 #
 #	Addition: One command to rule them all, One command to find it, and One command to Run it! 
 #
-#     > powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://tweaks.daddymadu.gg')"
+#     > powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://daddymadu.gg/ps')"
 #
 #     Changelogs Moved to ReadMe File for better mangement. 
 #
