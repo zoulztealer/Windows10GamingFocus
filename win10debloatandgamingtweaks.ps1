@@ -7,7 +7,7 @@
 #
 #	Addition: One command to rule them all, One command to find it, and One command to Run it! 
 #
-#     > powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://daddymadu.gg/ps')"
+#     > powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://madu.gg/ps')"
 #
 #     Changelogs Moved to ReadMe File for better mangement. 
 #
@@ -19,7 +19,7 @@ Write-Host "Please DISABLE your ANTIVIRUS to prevent any issues and PRESS any KE
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
-cls
+Clear-Host
 # Default preset
 $tweaks = @(
 	### Require administrator privileges ###
@@ -248,7 +248,7 @@ function Show-Choco-Menu {
    
  do
  {
-    cls
+    Clear-Host
     Write-Host "================ $Title ================"
     Write-Host "Y: Press 'Y' to do this."
     Write-Host "2: Press 'N' to skip this."
@@ -317,7 +317,7 @@ function Write-ColorOutput
     }
 
     # Always write (if we want just a NewLine)
-    if($Object -eq $null)
+    if($null -eq $Object)
     {
         $Object = ""
     }
@@ -338,7 +338,7 @@ function Write-ColorOutput
 
 Function InstallTitusProgs {
 	Write-Output "Installing Chocolatey"
-	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 	choco install chocolatey-core.extension -y
 	Write-Output "Running O&O Shutup with Recommended Settings"
 	Import-Module BitsTransfer
@@ -379,7 +379,7 @@ Function InstallIrfanview {
 }
 
 Function InstallChocoUpdates {
-        cls
+        Clear-Host
 	choco upgrade all -y
 }
 
@@ -401,7 +401,7 @@ Function ApplyPCOptimizations {
 Function askXBOX {
 	do
  {
-    cls
+    Clear-Host
     Write-Host "================ Do You Want To Disable XBOX features and all related APPS? ================"
 	Write-ColorOutput "WARNING: REMOVING XBOX APPS will make Win+G do nothing!" Red
     Write-Host "Y: Press 'Y' to Disable XBOX features."
@@ -425,21 +425,21 @@ Function askXBOX {
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
         $ErrorActionPreference = $errpref #restore previous preference
-	cls
+	Clear-Host
 	}
     'n' {
         $errpref = $ErrorActionPreference #save actual preference
         $ErrorActionPreference = "silentlycontinue"
         Write-Output "Enabling Xbox features..."
-	Get-AppxPackage -AllUsers "Microsoft.XboxApp" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "Microsoft.XboxIdentityProvider" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "Microsoft.XboxSpeechToTextOverlay" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "Microsoft.XboxGameOverlay" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
-	Get-AppxPackage -AllUsers "Microsoft.Xbox.TCUI" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.XboxApp" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.XboxIdentityProvider" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.XboxSpeechToTextOverlay" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.XboxGameOverlay" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
+	Get-AppxPackage -AllUsers "Microsoft.Xbox.TCUI" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
         $ErrorActionPreference = $errpref #restore previous preference
-	cls
+	Clear-Host
 		}
     'q' { }
     }
@@ -625,7 +625,7 @@ Function EnableActivityHistory {
 # Disable Background application access - ie. if apps can download or update when they aren't used - Cortana is excluded as its inclusion breaks start menu search
 Function DisableBackgroundApps {
 	Write-Output "Disabling Background application access..."
-	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach {
+	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Exclude "Microsoft.Windows.Cortana*" | ForEach-Object {
 		Set-ItemProperty -Path $_.PsPath -Name "Disabled" -Type DWord -Value 1
 		Set-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -Type DWord -Value 1
 	}
@@ -634,7 +634,7 @@ Function DisableBackgroundApps {
 # Enable Background application access
 Function EnableBackgroundApps {
 	Write-Output "Enabling Background application access..."
-	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" | ForEach {
+	Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" | ForEach-Object {
 		Remove-ItemProperty -Path $_.PsPath -Name "Disabled" -ErrorAction SilentlyContinue
 		Remove-ItemProperty -Path $_.PsPath -Name "DisabledByUser" -ErrorAction SilentlyContinue
 	}
@@ -963,7 +963,7 @@ Function askDefender {
 	
 	do
  {
-    cls
+    Clear-Host
     Write-Host "================ Do you want to Disable Microsoft Windows Defender? ================"
     Write-Host "Y: Press 'Y' to Disable Microsoft Windows Defender."
     Write-Host "N: Press 'N' to Enable Microsoft Windows Defender."
@@ -997,7 +997,7 @@ Function askDefender {
     Disable-ScheduledTask -TaskName "\Microsoft\Windows\Windows Defender\Windows Defender Cleanup" | Out-Null
     Disable-ScheduledTask -TaskName "\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" | Out-Null
     Disable-ScheduledTask -TaskName "\Microsoft\Windows\Windows Defender\Windows Defender Verification" | Out-Null
-    cls
+    Clear-Host
 	}
     'n' {
         Write-Output "Enabling Microsoft Windows Defender and related Processes..."
@@ -1016,7 +1016,7 @@ Function askDefender {
     Enable-ScheduledTask -TaskName "\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" | Out-Null
     Enable-ScheduledTask -TaskName "\Microsoft\Windows\Windows Defender\Windows Defender Verification" | Out-Null
 	Set-MpPreference -EnableControlledFolderAccess Disabled -ErrorAction SilentlyContinue
-	cls
+	Clear-Host
 		}
     'q' {  }
     }
@@ -1030,7 +1030,7 @@ Function askMSPPS {
 	
 	do
  {
-    cls
+    Clear-Host
     Write-Host "================ Do you have High CPU Usage from Microsoft Software Protection Platform Service? ================"
 	Write-ColorOutput "WARNING: Windows Default is ENABLED, if you Disabled it, Windows 10/Office will show not activated state but you can use it as normal" Red
     Write-Host "Y: Press 'Y' to Disable this."
@@ -1043,13 +1043,13 @@ Function askMSPPS {
 	    Write-Output "Disabling Microsoft Software Protection Platform Service and related Processes..."
 		Disable-ScheduledTask -TaskName "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" | Out-Null
 		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\sppsvc" -Name "Start" -Type DWord -Value 4 -ErrorAction SilentlyContinue
-		cls
+		Clear-Host
 	}
     'n' {
         Write-Output "Enabling Microsoft Software Protection Platform Service and related Processes..."
 	    Enable-ScheduledTask -TaskName "\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask" | Out-Null
 		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\sppsvc" -Name "Start" -Type DWord -Value 2 -ErrorAction SilentlyContinue
-		cls
+		Clear-Host
 		}
     'q' { Exit  }
     }
@@ -1063,7 +1063,7 @@ Function askMSWSAPPX {
 	
 	do
  {
-    cls
+    Clear-Host
     Write-Host "================ Do you want to disable Microsoft Store and Disable WSAPPX Service? ================"
 	Write-ColorOutput "WARNING: Windows Default is ENABLED, if you Disabled it and wanted to enable it again and restore Microsoft Store Please run the script twise and choose N" Red
     Write-Host "Y: Press 'Y' to Disable this."
@@ -1082,7 +1082,7 @@ Function askMSWSAPPX {
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -Name "DisableStoreApps" -Type DWord -Value 1 -ErrorAction SilentlyContinue
 		Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\AppXSvc" -Name "Start" -Type DWord -Value 4 -ErrorAction SilentlyContinue
 		$ErrorActionPreference = $errpref #restore previous preference
-		cls
+		Clear-Host
 	}
     'n' {
         Write-Output "Enabling Microsoft Store and WSAPPX Service..."
@@ -1091,10 +1091,10 @@ Function askMSWSAPPX {
 		Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -Name "DisableStoreApps" -ErrorAction SilentlyContinue
 		Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -Force | Out-Null
 		Set-ItemProperty -Path "HKLM:\SYSTEM\ControlSet001\Services\AppXSvc" -Name "Start" -Type DWord -Value 3 -ErrorAction SilentlyContinue
-		Get-AppxPackage -AllUsers "Microsoft.DesktopAppInstaller" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} -ErrorAction SilentlyContinue
-		Get-AppxPackage -AllUsers "Microsoft.WindowsStore" | ForEach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} -ErrorAction SilentlyContinue
+		Get-AppxPackage -AllUsers "Microsoft.DesktopAppInstaller" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} -ErrorAction SilentlyContinue
+		Get-AppxPackage -AllUsers "Microsoft.WindowsStore" | ForEach-Object {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"} -ErrorAction SilentlyContinue
 		$ErrorActionPreference = $errpref #restore previous preference
-		cls
+		Clear-Host
 		}
     'q' { Exit  }
     }
@@ -1985,7 +1985,7 @@ Function AddENKeyboard {
 Function RemoveENKeyboard {
 	Write-Output "Removing secondary en-US keyboard..."
 	$langs = Get-WinUserLanguageList
-	Set-WinUserLanguageList ($langs | ? {$_.LanguageTag -ne "en-US"}) -Force
+	Set-WinUserLanguageList ($langs | Where-Object {$_.LanguageTag -ne "en-US"}) -Force
 }
 
 # Enable NumLock after startup
@@ -2397,7 +2397,7 @@ Function DorEOneDrive {
 	
 	do
  {
-    cls
+    Clear-Host
     Write-Host "================ Do you want to Disable Microsoft OneDrive? ================"
     Write-Host "Y: Press 'Y' to Disable OneDrive."
     Write-Host "N: Press 'N' to Enable OneDrive."
@@ -2440,7 +2440,7 @@ Function DorEOneDrive {
 	Remove-Item -Force -ErrorAction SilentlyContinue "$env:userprofile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk"
 	Get-ScheduledTask -TaskPath '\' -TaskName 'OneDrive*' -ea SilentlyContinue | Unregister-ScheduledTask -Confirm:$false
 	$ErrorActionPreference = $errpref #restore previous preference
-	cls
+	Clear-Host
 	}
     'n' {
         Write-Output "Enabling Microsoft OneDrive and related Processes..."
@@ -2456,7 +2456,7 @@ Function DorEOneDrive {
 	}
 	Start-Process $onedrive -NoNewWindow
 	$ErrorActionPreference = $errpref #restore previous preference
-	cls
+	Clear-Host
 		}
     'q' {  }
     }
@@ -2710,8 +2710,8 @@ Function UnpinStartMenuTiles {
 }
 
 $YourInputStart = "02,00,00,00,e6,d9,21,ac,f8,e0,d6,01,00,00,00,00,43,42,01,00,c2,14,01,cb,32,0a,03,05,ce,ab,d3,e9,02,24,da,f4,03,44,c3,8a,01,66,82,e5,8b,b1,ae,fd,fd,bb,3c,00,05,a0,8f,fc,c1,03,24,8a,d0,03,44,80,99,01,66,b0,b5,99,dc,cd,b0,97,de,4d,00,05,86,91,cc,93,05,24,aa,a3,01,44,c3,84,01,66,9f,f7,9d,b1,87,cb,d1,ac,d4,01,00,c2,3c,01,c5,5a,01,00"
-$hexifiedStart = $YourInputStart.Split(',') | % { "0x$_"}
-ls -r "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\" | get-itemproperty2 | where { $_ -like '*windows.data.unifiedtile.startglobalproperties*' } | set-itemproperty -value (([byte[]]$hexifiedStart))
+$hexifiedStart = $YourInputStart.Split(',') | ForEach-Object { "0x$_"}
+Get-ChildItem -r "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\" | get-itemproperty2 | Where-Object { $_ -like '*windows.data.unifiedtile.startglobalproperties*' } | set-itemproperty -value (([byte[]]$hexifiedStart))
 Stop-Process -name explorer | Out-Null
 	$ErrorActionPreference = $errpref #restore previous preference
 }
@@ -2726,7 +2726,7 @@ function Windows11Extra {
 		New-Item -Path "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" -ErrorAction SilentlyContinue | Out-Null #context menu setup
 		reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
 		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -Type DWord -Value 0 #set taskbar icons to the left
-		Get-appxpackage -all *shellexperience* -packagetype bundle |% {add-appxpackage -register -disabledevelopmentmode ($_.installlocation + '\appxmetadata\appxbundlemanifest.xml')}
+		Get-appxpackage -all *shellexperience* -packagetype bundle |ForEach-Object {add-appxpackage -register -disabledevelopmentmode ($_.installlocation + '\appxmetadata\appxbundlemanifest.xml')}
 		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarDa" -Type DWord -Value 0 #disable widget icon from taskbar
 		Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarMn" -Type DWord -Value 0 #disable chat icon from taskbar
 		Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "HideRecentlyAddedApps" -Type DWord -Value 1 #Disable start menu RecentlyAddedApps
@@ -2844,8 +2844,8 @@ Write-Output "Windows screen scale is Detected as 100%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,C0,CC,0C,00,00,00,00,00,80,99,19,00,00,00,00,00,40,66,26,00,00,00,00,00,00,33,33,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "125") {
@@ -2853,8 +2853,8 @@ Write-Output "Windows screen scale is Detected as 125%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,00,00,10,00,00,00,00,00,00,00,20,00,00,00,00,00,00,00,30,00,00,00,00,00,00,00,40,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "150") {
@@ -2862,8 +2862,8 @@ Write-Output "Windows screen scale is Detected as 150%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,30,33,13,00,00,00,00,00,60,66,26,00,00,00,00,00,90,99,39,00,00,00,00,00,C0,CC,4C,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "175") {
@@ -2871,8 +2871,8 @@ Write-Output "Windows screen scale is Detected as 175%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,60,66,16,00,00,00,00,00,C0,CC,2C,00,00,00,00,00,20,33,43,00,00,00,00,00,80,99,59,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "200") {
@@ -2880,8 +2880,8 @@ Write-Output "Windows screen scale is Detected as 200%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,90,99,19,00,00,00,00,00,20,33,33,00,00,00,00,00,B0,CC,4C,00,00,00,00,00,40,66,66,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "225") {
@@ -2889,8 +2889,8 @@ Write-Output "Windows screen scale is Detected as 225%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,C0,CC,1C,00,00,00,00,00,80,99,39,00,00,00,00,00,40,66,56,00,00,00,00,00,00,33,73,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "250") {
@@ -2898,8 +2898,8 @@ Write-Output "Windows screen scale is Detected as 250%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,00,00,20,00,00,00,00,00,00,00,40,00,00,00,00,00,00,00,60,00,00,00,00,00,00,00,80,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "300") {
@@ -2907,8 +2907,8 @@ Write-Output "Windows screen scale is Detected as 300%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,60,66,26,00,00,00,00,00,C0,CC,4C,00,00,00,00,00,20,33,73,00,00,00,00,00,80,99,99,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } elseif($checkscreenscale -eq "350") {
@@ -2916,8 +2916,8 @@ Write-Output "Windows screen scale is Detected as 350%, Applying Mouse Fix for i
 $YourInputX = "00,00,00,00,00,00,00,00,C0,CC,2C,00,00,00,00,00,80,99,59,00,00,00,00,00,40,66,86,00,00,00,00,00,00,33,B3,00,00,00,00,00"
 $YourInputY = "00,00,00,00,00,00,00,00,00,00,38,00,00,00,00,00,00,00,70,00,00,00,00,00,00,00,A8,00,00,00,00,00,00,00,E0,00,00,00,00,00"
 $RegPath   = 'HKCU:\Control Panel\Mouse'
-$hexifiedX = $YourInputX.Split(',') | % { "0x$_"}
-$hexifiedY = $YourInputY.Split(',') | % { "0x$_"}
+$hexifiedX = $YourInputX.Split(',') | ForEach-Object { "0x$_"}
+$hexifiedY = $YourInputY.Split(',') | ForEach-Object { "0x$_"}
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseXCurve" -Type Binary -Value (([byte[]]$hexifiedX))
 Set-ItemProperty -Path "$RegPath" -Name "SmoothMouseYCurve" -Type Binary -Value (([byte[]]$hexifiedY))
 } else {
@@ -3431,7 +3431,7 @@ Write-Output "Setting network adapter RSS..."
 	
 	Foreach($PhysicalAdapter in $PhysicalAdapters)
 	{
-		$PhysicalAdapterName = $PhysicalAdapter.Name
+		# $PhysicalAdapterName = $PhysicalAdapter.Name
 		$DeviceID = $PhysicalAdapter.DeviceID
 		If([Int32]$DeviceID -lt 10)
 		{
@@ -3542,7 +3542,7 @@ cmd /c 'del /f /q %userprofile%\recent\*.* 2>nul' >$null
 cmd /c 'del /f /s /q %userprofile%\Local Settings\Temporary Internet Files\*.* 2>nul' >$null
 $errpref = $ErrorActionPreference #save actual preference
 $ErrorActionPreference = "silentlycontinue"
-Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | foreach ($_) {
+Get-ChildItem -Path "$env:temp" -Exclude "dmtmp" | ForEach-Object ($_) {
        "CLEANING :" + $_.fullname
        Remove-Item $_.fullname -Force -Recurse
        "CLEANED... :" + $_.fullname
@@ -3560,10 +3560,10 @@ Function Finished {
 	Set-ItemProperty -Path "HKCR:\Msi.Package\shell\runas\command" -Name "(Default)" -Type ExpandString -Value '"%SystemRoot%\System32\msiexec.exe" /i "%1" %*' | Out-Null -ErrorAction SilentlyContinue
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "AllowClipboardHistory" -Type DWord -Value 1
         cmd /c 'REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Manufacturer" /t REG_SZ /d "This PC is Optimized by DaddyMadu" /f 2>nul' >$null
-        cmd /c 'REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "SupportURL" /t REG_SZ /d "http://daddymadu.gg" /f 2>nul' >$null
+        cmd /c 'REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "SupportURL" /t REG_SZ /d "https://madu.gg" /f 2>nul' >$null
 	Start-Sleep -s 5
         Write-Output "Done! Please Reboot Your PC! Don't forget to follow me on Social Media."
-        Start "http://daddymadu.gg"
+        Start-Process "https://madu.gg"
 }
 
 ##########
@@ -3628,8 +3628,8 @@ $FileAssoc = Get-ItemProperty $FileAssocKey
 $URLAssoc = Get-ItemProperty $URLAssocKey 
  
 $Associations = @() 
-$Filetypes.Property | foreach {$Associations += $FileAssoc.$_} 
-$URLTypes.Property | foreach {$Associations += $URLAssoc.$_} 
+$Filetypes.Property | ForEach-Object {$Associations += $FileAssoc.$_} 
+$URLTypes.Property | ForEach-Object {$Associations += $URLAssoc.$_} 
  
 # add registry values in each software class to stop edge from associating as the default 
 foreach ($Association in $Associations) 
@@ -3660,7 +3660,7 @@ Function CreateRestorePoint {
 # Remove-Item -Path C:\Mnt -Recurse
 
 Function DebloatAll {
-cls
+Clear-Host
     $Bloatware = @(
     #Unnecessary Windows 10 AppX Apps
     "*3DBuilder*"
@@ -3770,9 +3770,9 @@ If ($args -And $args[0].ToLower() -eq "-preset") {
 If ($args) {
 	$tweaks = $args
 	If ($preset) {
-		$tweaks = Get-Content $preset -ErrorAction Stop | ForEach { $_.Trim() } | Where { $_ -ne "" -and $_[0] -ne "#" }
+		$tweaks = Get-Content $preset -ErrorAction Stop | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" -and $_[0] -ne "#" }
 	}
 }
 
 # Call the desired tweak functions
-$tweaks | ForEach { Invoke-Expression $_ }
+$tweaks | ForEach-Object { Invoke-Expression $_ }
