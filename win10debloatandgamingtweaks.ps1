@@ -3021,6 +3021,7 @@ Function DisableDMA {
         $ErrorActionPreference = "silentlycontinue"
         #bcdedit /set vsmlaunchtype Off | Out-Null
         #bcdedit /set vm No | Out-Null
+		bcdedit /deletevalue hypervisorlaunchtype | Out-Null
 		bcdedit /deletevalue vsmlaunchtype | Out-Null
 		bcdedit /deletevalue vm | Out-Null
 		bcdedit /set loadoptions DISABLE-LSA-ISO,DISABLE-VBS | Out-Null
