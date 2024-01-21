@@ -2984,6 +2984,7 @@ Function NetworkOptimizations {
        netsh int tcp set supplemental internet congestionprovider=ctcp | Out-Null
        netsh int tcp set global rss=enabled | Out-Null
        netsh int ip set global taskoffload=enabled | Out-Null
+	   netsh int tcp set global autotuninglevel=disabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSegmentCoalescing disabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSideScaling enabled | Out-Null
        Disable-NetAdapterLso -Name * | Out-Null
