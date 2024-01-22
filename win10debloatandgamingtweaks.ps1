@@ -25,7 +25,7 @@ $currentexename = (([Diagnostics.Process]::GetCurrentProcess().ProcessName) + '.
 		exit
 	}
 Clear-Host
-# Default preset
+# Desktop presets
 $tweaks = @(
 	### Require administrator privileges ###
 	"RequireAdmin",
@@ -39,17 +39,14 @@ $tweaks = @(
 	"Install7Zip",
 	"InstallChocoUpdates",
 	"EnableUlimatePower",    # DaddyMadu don't change order it will break other functions! just disable if you want with #
-	
 	### DaddyMadu Windows Defender Settings! Don't Change Order Just Disable with # If You Don't want it ###
 	"MSIMode",                       #Enable Or Disable MSI Mode For Supported Cards, WARNING ENABLING MSI MODE MIGHT CRUSH YOUR SYSTEM! IF IT HAPPENS PLEASE RESTORE LAST WORKING SYSTEM RESTORE POINT AND DON'T ENABLE MSI MODE ON THIS SYSTEM AGAIN!
 	"askDefender",
 	"DorEOneDrive",                  #Option to Install Or Uninstall Microsoft One Drive!
 	"askXBOX",
 	"Windows11Extra",
-
 	### Windows Apps
 	"DebloatAll",
-
 	### Privacy Tweaks ###
 	"DisableTelemetry",             # "EnableTelemetry",
 	"DisableWiFiSense",             # "EnableWiFiSense",
@@ -69,7 +66,6 @@ $tweaks = @(
 	"DisableDiagTrack",             # "EnableDiagTrack",
 	"DisableWAPPush",               # "EnableWAPPush",
 	"DisableNewsFeed",
-
 	### Security Tweaks ###
 	"SetUACLow",                  # "SetUACHigh",
 	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
@@ -86,7 +82,6 @@ $tweaks = @(
 	#"DisableScriptHost",            # "EnableScriptHost",
 	#"EnableDotNetStrongCrypto",     # "DisableDotNetStrongCrypto",
 	"DisableMeltdownCompatFlag", # "EnableMeltdownCompatFlag"    
-
 	### Service Tweaks ###
 	"EnableUpdateMSRT",          # "EnableUpdateMSRT",    #"DisableUpdateMSRT",
 	"EnableUpdateDriver",        # "EnableUpdateDriver",  #"DisableUpdateDriver",
@@ -107,8 +102,6 @@ $tweaks = @(
 	"DisableSleepTimeout",        # "EnableSleepTimeout",
 	"DisableFastStartup",         # "EnableFastStartup",
 	"DISGaming",
-
-
     ### Windows Tweaks ###
 	"PowerThrottlingOff",
 	"Win32PrioritySeparation",
@@ -123,11 +116,8 @@ $tweaks = @(
 	"TurnOffSafeSearch",
 	"DisableCloudSearch",
 	"DisableDeviceHistory",
-	"DisableRemoteAssistance",
 	"DisableSearchHistroy",
 	"RemoveMeet",
-	
-	
 	### UI Tweaks ###
 	"EnableActionCenter",          # "DisableActionCenter",
 	"EnableLockScreen",				# "DisableLockScreen",
@@ -152,7 +142,6 @@ $tweaks = @(
 	# "AddENKeyboard",              # "RemoveENKeyboard",
 	"EnableNumlock",             	# "DisableNumlock",
 	"EnableDarkMode",				# "DisableDarkMode",
-
 	### Explorer UI Tweaks ###
 	"ShowKnownExtensions",          # "HideKnownExtensions",
 	"HideHiddenFiles",
@@ -165,7 +154,6 @@ $tweaks = @(
 	"Hide3DObjectsFromExplorer",  # "Show3DObjectsInExplorer",
 	"EnableThumbnails",          # "EnableThumbnails", # "DisableThumbnails",
 	"EnableThumbsDB",              # "EnableThumbsDB", # "DisableThumbsDB", 
-
 	### Application Tweaks ###
 	#"UninstallMediaPlayer",         #"InstallMediaPlayer",
 	"UninstallInternetExplorer",  # "InstallInternetExplorer",
@@ -176,13 +164,181 @@ $tweaks = @(
 	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
 	"InstallPDFPrinter",		# "UninstallPDFPrinter",
 	"SVCHostTweak",
-
 	### Unpinning ###
 	"UnpinStartMenuTiles",
-
         ### DaddyMadu Quality Of Life Tweaks ###
 	"QOL",
-	
+        ### DaddyMadu Gaming Tweaks ###
+	"FullscreenOptimizationFIX",
+	"GameOptimizationFIX",
+	"ApplyPCOptimizations",
+	"RawMouseInput",
+	"DetectnApplyMouseFIX",
+	"DisableHPET",
+	"EnableGameMode",
+	"EnableHAGS",
+	"DisableCoreParking",
+	"DisableDMA",
+	"DisablePKM",
+	"DisallowDIP",
+	"UseBigM",
+	"ForceContiguousM",
+	"DecreaseMKBuffer",
+	"StophighDPC",
+	"NvidiaTweaks",
+	"AMDGPUTweaks",
+ 	"NetworkAdapterRSS",
+	"NetworkOptimizations",
+ 	"DisableNagle",
+	"RemoveEdit3D",
+	"FixURLext",  # fix issue with games shortcut that created by games lunchers turned white!
+	"UltimateCleaner",
+	"Finished"
+	### Auxiliary Functions ###
+)
+
+#Mobile Devices presets.
+$mobiletweaks = @(
+	### Require administrator privileges ###
+	"RequireAdmin",
+	"CreateRestorePoint",
+	### Chris Titus Tech Additions
+	"SlowUpdatesTweaks",
+	"Write-ColorOutput", #Utilizing Colors for better Warning messages!
+	"InstallTitusProgs", #REQUIRED FOR OTHER PROGRAM INSTALLS!
+	"InstallMVC", #DaddyMadu install Microsoft Visualstudio required for HPET service!
+	"Install7Zip",
+	"InstallChocoUpdates",
+	"EnableUlimatePower",    # DaddyMadu don't change order it will break other functions! just disable if you want with #
+	### DaddyMadu Windows Defender Settings! Don't Change Order Just Disable with # If You Don't want it ###
+	"MSIMode",                       #Enable Or Disable MSI Mode For Supported Cards, WARNING ENABLING MSI MODE MIGHT CRUSH YOUR SYSTEM! IF IT HAPPENS PLEASE RESTORE LAST WORKING SYSTEM RESTORE POINT AND DON'T ENABLE MSI MODE ON THIS SYSTEM AGAIN!
+	"askDefender",
+	"DorEOneDrive",                  #Option to Install Or Uninstall Microsoft One Drive!
+	"askXBOX",
+	"Windows11Extra",
+	### Windows Apps
+	"DebloatAll",
+	### Privacy Tweaks ###
+	"DisableTelemetry",             # "EnableTelemetry",
+	"DisableWiFiSense",             # "EnableWiFiSense",
+	"DisableSmartScreen",         # "EnableSmartScreen",
+	"DisableWebSearch",             # "EnableWebSearch",
+	"DisableAppSuggestions",        # "EnableAppSuggestions",
+	"DisableActivityHistory",       # "EnableActivityHistory",
+	"EnableBackgroundApps",           #"DisableBackgroundApps",
+	"DisableLocationTracking",      # "EnableLocationTracking",
+	"DisableMapUpdates",            # "EnableMapUpdates",
+	"DisableFeedback",              # "EnableFeedback",
+	"DisableTailoredExperiences",   # "EnableTailoredExperiences",
+	"DisableAdvertisingID",         # "EnableAdvertisingID",
+	"DisableCortana",               # "EnableCortana",
+	"DisableErrorReporting",        # "EnableErrorReporting",
+	"SetP2PUpdateLocal",          # "SetP2PUpdateInternet",
+	"DisableDiagTrack",             # "EnableDiagTrack",
+	"DisableWAPPush",               # "EnableWAPPush",
+	"DisableNewsFeed",
+	### Security Tweaks ###
+	"SetUACLow",                  # "SetUACHigh",
+	# "EnableSharingMappedDrives",  # "DisableSharingMappedDrives",
+	# "DisableAdminShares",           # "EnableAdminShares",
+	"DisableSMB1",                # "EnableSMB1",
+	# "DisableSMBServer",           # "EnableSMBServer",
+	# "DisableLLMNR",               # "EnableLLMNR",
+	"SetCurrentNetworkPrivate",     # "SetCurrentNetworkPublic",
+	"SetUnknownNetworksPrivate",  # "SetUnknownNetworksPublic",
+	"DisableNetDevicesAutoInst",  # "EnableNetDevicesAutoInst",
+	"EnableF8BootMenu",             # "DisableF8BootMenu",
+	#"SetDEPOptOut",                 # "SetDEPOptIn",
+	# "EnableCIMemoryIntegrity",    # "DisableCIMemoryIntegrity",
+	#"DisableScriptHost",            # "EnableScriptHost",
+	#"EnableDotNetStrongCrypto",     # "DisableDotNetStrongCrypto",
+	"DisableMeltdownCompatFlag", # "EnableMeltdownCompatFlag"    
+	### Service Tweaks ###
+	"EnableUpdateMSRT",          # "EnableUpdateMSRT",    #"DisableUpdateMSRT",
+	"EnableUpdateDriver",        # "EnableUpdateDriver",  #"DisableUpdateDriver",
+	"DisableUpdateRestart",         # "EnableUpdateRestart",
+	"DisableHomeGroups",          # "EnableHomeGroups",
+	"EnableSharedExperiences",     # "SharedExperiences",
+	"DisableRemoteAssistance",      # "EnableRemoteAssistance",
+	"EnableRemoteDesktop",          # "DisableRemoteDesktop",
+	"DisableAutoplay",              # "EnableAutoplay",
+	"DisableAutorun",               # "EnableAutorun",
+	"DisableStorageSense",        # "EnableStorageSense",
+	"DisableDefragmentation",     # "EnableDefragmentation",
+	"DisableSuperfetch",          # "EnableSuperfetch",
+	"EnableIndexing",
+	"SetBIOSTimeUTC",         #"SetBIOSTimeUTC", #"SetBIOSTimeLocal",
+	"DisableHibernation",		# "EnableHibernation",
+	"EnableSleepButton",		# "DisableSleepButton",         
+	"DisableSleepTimeout",        # "EnableSleepTimeout",
+	"DisableFastStartup",         # "EnableFastStartup",
+	"DISGaming",
+    ### Windows Tweaks ###
+	"PowerThrottlingOff",
+	"Win32PrioritySeparation",
+	"DisableAERO",
+	"BSODdetails",
+	"Disablelivetiles",
+	"wallpaperquality",
+	"DisableShistory",
+	"Disableshortcutword",
+	"DisableMouseKKS",
+	"DisableTransparency",
+	"TurnOffSafeSearch",
+	"DisableCloudSearch",
+	"DisableDeviceHistory",
+	"DisableSearchHistroy",
+	"RemoveMeet",
+	### UI Tweaks ###
+	"EnableActionCenter",          # "DisableActionCenter",
+	"EnableLockScreen",				# "DisableLockScreen",
+	"EnableLockScreenRS1",			# "DisableLockScreenRS1",
+	# "HideNetworkFromLockScreen",    # "ShowNetworkOnLockScreen",
+	# "HideShutdownFromLockScreen",   # "ShowShutdownOnLockScreen",
+	"DisableStickyKeys",            # "EnableStickyKeys",
+	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
+	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
+	"DisableFileDeleteConfirm",	# "EnableFileDeleteConfirm",    
+	"HideTaskbarSearch",
+	#"ShowTaskbarSearchIcon",      # "ShowTaskbarSearchBox",
+	"HideTaskView",                 # "ShowTaskView",
+	# "ShowSmallTaskbarIcons",        # "ShowLargeTaskbarIcons",
+	# "SetTaskbarCombineWhenFull",    # "SetTaskbarCombineNever",     # "SetTaskbarCombineAlways",
+	"HideTaskbarPeopleIcon",        # "ShowTaskbarPeopleIcon",
+	#"HideTrayIcons",                #"ShowTrayIcons",
+	"DisableSearchAppInStore",      # "EnableSearchAppInStore",
+	"DisableNewAppPrompt",          # "EnableNewAppPrompt",
+	# "SetControlPanelSmallIcons",  # "SetControlPanelLargeIcons",  # "SetControlPanelCategories",
+	"SetVisualFXPerformance",     # "SetVisualFXAppearance",
+	# "AddENKeyboard",              # "RemoveENKeyboard",
+	"EnableNumlock",             	# "DisableNumlock",
+	"EnableDarkMode",				# "DisableDarkMode",
+	### Explorer UI Tweaks ###
+	"ShowKnownExtensions",          # "HideKnownExtensions",
+	"HideHiddenFiles",
+	"HideSyncNotifications"         # "ShowSyncNotifications",
+	"HideRecentShortcuts",          # "ShowRecentShortcuts",
+	"SetExplorerThisPC",            # "SetExplorerQuickAccess",
+	"ShowThisPCOnDesktop",          # "HideThisPCFromDesktop",
+	"ShowUserFolderOnDesktop",    # "HideUserFolderFromDesktop",
+	"Hide3DObjectsFromThisPC",      # "Show3DObjectsInThisPC",
+	"Hide3DObjectsFromExplorer",  # "Show3DObjectsInExplorer",
+	"EnableThumbnails",          # "EnableThumbnails", # "DisableThumbnails",
+	"EnableThumbsDB",              # "EnableThumbsDB", # "DisableThumbsDB", 
+	### Application Tweaks ###
+	#"UninstallMediaPlayer",         #"InstallMediaPlayer",
+	"UninstallInternetExplorer",  # "InstallInternetExplorer",
+	"UninstallWorkFolders",       # "InstallWorkFolders",
+	"UninstallLinuxSubsystem",      # "UninstallLinuxSubsystem",     #"InstallLinuxSubsystem",
+	# "InstallHyperV",              # "UninstallHyperV",
+	"SetPhotoViewerAssociation",    # "UnsetPhotoViewerAssociation",
+	"AddPhotoViewerOpenWith",       # "RemovePhotoViewerOpenWith",
+	"InstallPDFPrinter",		# "UninstallPDFPrinter",
+	"SVCHostTweak",
+	### Unpinning ###
+	"UnpinStartMenuTiles",
+        ### DaddyMadu Quality Of Life Tweaks ###
+	"QOL",
         ### DaddyMadu Gaming Tweaks ###
 	"FullscreenOptimizationFIX",
 	"GameOptimizationFIX",
@@ -1177,12 +1333,6 @@ Function EnableSharedExperiences {
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableMmx" -ErrorAction SilentlyContinue
 }
 
-# Disable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
-Function DisableRemoteAssistance {
-	Write-Output "Disabling Remote Assistance..."
-	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
-}
-
 # Enable Remote Assistance - Not applicable to Server (unless Remote Assistance is explicitly installed)
 Function EnableRemoteAssistance {
 	Write-Output "Enabling Remote Assistance..."
@@ -1415,7 +1565,7 @@ Function PowerThrottlingOff {
 #Setting Processor scheduling.
 Function Win32PrioritySeparation {
 	Write-Output "Setting Processor scheduling..."
-	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" -Name "Win32PrioritySeparation" -Type DWord -Value 0x00000018
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" -Name "Win32PrioritySeparation" -Type DWord -Value 0x00000028
 }
 
 #Disabling aero shake.
@@ -3365,6 +3515,19 @@ If ($args) {
 		$tweaks = Get-Content $preset -ErrorAction Stop | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" -and $_[0] -ne "#" }
 	}
 }
+If ($args) {
+	$mobiletweaks = $args
+	If ($preset) {
+		$mobiletweaks = Get-Content $preset -ErrorAction Stop | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne "" -and $_[0] -ne "#" }
+	}
+}
 
 # Call the desired tweak functions
-$tweaks | ForEach-Object { Invoke-Expression $_ }
+$PlatformCheck = (Get-Computerinfo).CsPCSystemType
+     if ($PlatformCheck -eq "Mobile") {
+     Write-Output "Platform is $PlatformCheck applying Mobile Devices Tweaks..."
+	 $mobiletweaks | ForEach-Object { Invoke-Expression $_ }
+     } else {
+     Write-Output "Platform is $PlatformCheck applying Desktop Tweaks..."
+	 $tweaks | ForEach-Object { Invoke-Expression $_ }
+     }
