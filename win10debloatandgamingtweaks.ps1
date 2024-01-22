@@ -12,9 +12,9 @@
 #     Changelogs Moved to ReadMe File for better mangement. 
 #
 ##########
-$host.ui.RawUI.WindowTitle = "DaddyMadu Ultimate Windows 10 Debloater and Gaming Focus Tweaker"
-cmd /c 'title [DaddyMadu Ultimate Windows 11 & 10 Debloater and Gaming Focus Tweaker]'
-Write-Host 'Welcome to DaddyMadu Ultimate Windows 11 & 10 Debloater and Gaming Focus Tweaker';
+$host.ui.RawUI.WindowTitle = "DaddyMadu Ultimate Windows Debloater and Gaming Focus Tweaker"
+cmd /c 'title [DaddyMadu Ultimate Windows Debloater and Gaming Focus Tweaker]'
+Write-Host 'Welcome to DaddyMadu Ultimate Windows Debloater and Gaming Focus Tweaker';
 Write-Host "Please DISABLE your ANTIVIRUS to prevent any issues and PRESS any KEY to Continue!" -ForegroundColor Red -BackgroundColor Black
 $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
