@@ -3134,14 +3134,33 @@ Function NetworkOptimizations {
        Set-NetTCPSetting -SettingName internet -MinRto 300 | Out-Null
        Set-NetTCPSetting -SettingName Internet -AutoTuningLevelLocal normal | Out-Null
        Set-NetTCPSetting -SettingName internet -ScalingHeuristics disabled | Out-Null
-       netsh int tcp set supplemental internet congestionprovider=ctcp | Out-Null
-       netsh int tcp set global rss=enabled | Out-Null
        netsh int ip set global taskoffload=enabled | Out-Null
-	   netsh int tcp set global autotuninglevel=disabled | Out-Null
+	   netsh int tcp set global ecncapability=enabled | Out-Null
+	   netsh int tcp set global rss=enabled | Out-Null
+	   netsh int tcp set global rsc=enabled | Out-Null
+	   netsh int tcp set global dca=enabled | Out-Null
+	   netsh int tcp set global netdma=enabled | Out-Null
+	   netsh int tcp set global fastopen=enabled | Out-Null
+	   netsh int tcp set global fastopenfallback=enabled | Out-Null
+	   netsh int tcp set global prr=enabled | Out-Null
+	   netsh int tcp set global pacingprofile=always | Out-Null
+	   netsh int tcp set global hystart=enabled | Out-Null
+	   netsh int tcp set supplemental internet enablecwndrestart=enabled | Out-Null
+	   netsh int tcp set security mpp=enabled | Out-Null
+	   netsh int tcp set global autotuninglevel=normal | Out-Null
+	   netsh int tcp set supplemental internet congestionprovider=dctcp | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSegmentCoalescing disabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSideScaling enabled | Out-Null
-       Disable-NetAdapterLso -Name * | Out-Null
        Enable-NetAdapterChecksumOffload -Name * | Out-Null
+	   Enable-NetAdapterChecksumOffload -Name "*" | Out-Null
+	   Enable-NetAdapterIPsecOffload -Name "*" | Out-Null
+	   Enable-NetAdapterRsc -Name "*" | Out-Null
+	   Enable-NetAdapterRss -Name "*" | Out-Null
+	   Enable-NetAdapterQos -Name "*" | Out-Null
+	   Disable-NetAdapterLso -Name "*"  | Out-Null
+	   Enable-NetAdapterEncapsulatedPacketTaskOffload -Name "*" | Out-Null
+	   Enable-NetAdapterSriov -Name "*" | Out-Null
+	   Enable-NetAdapterVmq -Name "*" | Out-Null
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Energy-Efficient Ethernet" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Energy Efficient Ethernet" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Energy Efficient Ethernet" -DisplayValue "Off" -ErrorAction SilentlyContinue
@@ -3174,6 +3193,12 @@ Function NetworkOptimizations {
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Jumbo Frame" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Maximum Number of RSS Queues" -DisplayValue "2 Queues" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Receive Side Scaling" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
+	   Set-NetAdapterRdma -Name "*" -Enabled $True -ErrorAction SilentlyContinue
+	   Set-NetAdapterRsc -Name "*"-IPv4Enabled $True -IPv6Enabled $True -ErrorAction SilentlyContinue
+	   Set-NetAdapterRss -Name "*" -Profile Conservative -ErrorAction SilentlyContinue
+	   Set-NetAdapterIPsecOffload -Name "*" -Enabled $True -ErrorAction SilentlyContinue
+	   Set-NetAdapterChecksumOffload -Name "*" -TcpIPv6Enabled RxTxEnabled -ErrorAction SilentlyContinue
+	   Set-NetAdapterChecksumOffload -Name "*" -IpIPv4Enabled RxTxEnabled -TcpIpv4Enabled RxTxEnabled -UdpIpv4Enabled RxTxEnabled -ErrorAction SilentlyContinue
        $ErrorActionPreference = $errpref #restore previous preference
        if ((Get-CimInstance -ClassName Win32_ComputerSystem).PCSystemType -ne 2)
 {
