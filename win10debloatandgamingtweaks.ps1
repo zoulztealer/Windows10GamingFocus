@@ -3125,9 +3125,11 @@ Function NetworkOptimizations {
        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" -Name "EnableAutoDoh" -Type DWord -Value 2
        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "MaxNumRssCpus" -Type DWord -Value 4
        Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "DisableTaskOffload" -Type DWord -Value 0
-       Set-NetTCPSetting -SettingName internet -EcnCapability disabled | Out-Null
-       Set-NetOffloadGlobalSetting -Chimney disabled | Out-Null
-       Set-NetTCPSetting -SettingName internet -Timestamps disabled | Out-Null
+       Set-NetTCPSetting -SettingName internet -EcnCapability enabled | Out-Null
+       #chimney gives additiional network offloading if supported by hw (chimney on helps cpu in games)
+       Set-NetOffloadGlobalSetting -Chimney enabled | Out-Null
+       #timestamps must be set enabled and also modified in registry: Tcp1323Opts=3 (faster and stable with ecn and dctcp) (https://www.windowspage.de/tipps/021215.html)
+       Set-NetTCPSetting -SettingName internet -Timestamps enabled | Out-Null
        Set-NetTCPSetting -SettingName internet -MaxSynRetransmissions 2 | Out-Null
        Set-NetTCPSetting -SettingName internet -NonSackRttResiliency disabled | Out-Null
        Set-NetTCPSetting -SettingName internet -InitialRto 2000 | Out-Null
@@ -3149,7 +3151,7 @@ Function NetworkOptimizations {
 	   netsh int tcp set security mpp=enabled | Out-Null
 	   netsh int tcp set global autotuninglevel=normal | Out-Null
 	   netsh int tcp set supplemental internet congestionprovider=dctcp | Out-Null
-       Set-NetOffloadGlobalSetting -ReceiveSegmentCoalescing disabled | Out-Null
+       Set-NetOffloadGlobalSetting -ReceiveSegmentCoalescing enabled | Out-Null
        Set-NetOffloadGlobalSetting -ReceiveSideScaling enabled | Out-Null
        Enable-NetAdapterChecksumOffload -Name * | Out-Null
 	   Enable-NetAdapterChecksumOffload -Name "*" | Out-Null
@@ -3161,6 +3163,7 @@ Function NetworkOptimizations {
 	   Enable-NetAdapterEncapsulatedPacketTaskOffload -Name "*" | Out-Null
 	   Enable-NetAdapterSriov -Name "*" | Out-Null
 	   Enable-NetAdapterVmq -Name "*" | Out-Null
+    #fixed and optimized several items in following section
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Energy-Efficient Ethernet" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Energy Efficient Ethernet" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Energy Efficient Ethernet" -DisplayValue "Off" -ErrorAction SilentlyContinue
@@ -3171,14 +3174,14 @@ Function NetworkOptimizations {
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Gigabit Lite" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "EEE" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Advanced EEE" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "ARP Offload" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "NS Offload" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "ARP Offload" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "NS Offload" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Large Send Offload v2 (IPv4)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Large Send Offload v2 (IPv6)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv4)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv6)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv4)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
-       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv6)" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv4)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "TCP Checksum Offload (IPv6)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv4)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
+       Set-NetAdapterAdvancedProperty -Name * -DisplayName "UDP Checksum Offload (IPv6)" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Idle Power Saving" -DisplayValue "Disabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Flow Control" -DisplayValue "Enabled" -ErrorAction SilentlyContinue
        Set-NetAdapterAdvancedProperty -Name * -DisplayName "Flow Control" -DisplayValue "Rx & Tx Enabled" -ErrorAction SilentlyContinue
